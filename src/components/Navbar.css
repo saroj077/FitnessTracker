@@ -1,0 +1,72 @@
+.nav-container{
+    justify-content: space-between;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color:black;
+    font-size: 0.9rem;
+}
+.nav-menu{
+    gap: 2rem;
+}
+.nav-menu>*:hover{
+    cursor: pointer;
+    color: #a3a2a2;
+}
+.SignUpbutton{
+    font-weight: 500;
+    padding: 0.6rem 1.4rem;
+    color: black;
+    border: solid;
+    border-color: #da1c5d;
+    background: white;
+    border-radius: 20px;
+    transition: all 300ms ease-in;
+}
+.SignUpbutton:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+/*.nav-wrapper {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+.nav-container {
+    display: flex;
+    align-items: center;
+}
+.nav-menu {
+    display: flex;
+    align-items: center;
+}
+.nav-menu a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 16px;
+}
+.nav-menu a:hover {
+    color: #ffd700; /* Change color on hover */
+/*}
+.button {
+    background-color: #ffd700;
+    color: #333;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button a {
+    color: #333;
+    text-decoration: none;
+}
+.button:hover {
+    background-color: #ffc107; /* Change background color on hover */
+/*}
+.button:hover a {
+    color: #333; /* Change color of text on hover */
+/*}
+.button a + a {
+    margin-left: 10px;
+}*/
