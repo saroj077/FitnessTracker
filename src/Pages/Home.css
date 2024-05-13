@@ -2,6 +2,8 @@
     color: black;
     position: relative;
     padding-bottom: 2rem;
+    margin: 0 auto;
+    padding: 0 30px;
 }
 .home-container{
     display: flex;

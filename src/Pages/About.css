@@ -3,6 +3,7 @@
     justify-content: center;
     align-items: center;
     padding: 50px;
+    height: 100vh;
 }
 .about-us-image {
     flex: 1;
@@ -26,7 +27,7 @@
 }
 .about-us-description p:first-of-type {
     font-size: 20px;
-    font-weight: 500; /* Increase font size of the first paragraph */
+    font-weight: 500;
 }
 .brand {
     color: #da1c5d;

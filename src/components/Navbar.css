@@ -1,4 +1,15 @@
+.nav-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    z-index: 1000;
+    padding: 0 30px;
+}
 .nav-container{
+    display: flex;
+    align-items: center;
     justify-content: space-between;
     padding-top: 1rem;
     padding-bottom: 1rem;
