@@ -32,7 +32,6 @@ export const SignUpContainer = styled.div`
  : null}
 `;
 
-
 export const SignInContainer = styled.div`
 position: absolute;
 top: 0;
@@ -68,7 +67,6 @@ margin: 8px 0;
 width: 100%;
 `;
 
-
 export const Button = styled.button`
    border-radius: 20px;
    border: 1px solid #ff4b2b;
@@ -87,6 +85,7 @@ export const Button = styled.button`
        outline: none;
    }
 `;
+
 export const GhostButton = styled(Button)`
 background-color: transparent;
 border-color: #ffffff;
@@ -98,6 +97,7 @@ font-size: 14px;
 text-decoration: none;
 margin: 15px 0;
 `;
+
 export const OverlayContainer = styled.div`
 position: absolute;
 top: 0;
@@ -159,7 +159,7 @@ font-size: 14px;
   font-weight: 100;
   line-height: 20px;
   letter-spacing: 0.5px;
-  margin: 20px 0 30px
+  margin: 20px 0 30px;
 `;
 
 export const Select = styled.select`
@@ -168,18 +168,32 @@ border: none;
 padding: 12px 15px;
 margin: 8px 0;
 width: 100%;
-    
-`
+`;
 
 export const SuccessMessageContainer = styled.div`
-  background-color: #dff0d8; /* Green background color */
-  color: #3c763d; /* Dark green text color */
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 20px;
-  text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+    text-align: center;
 `;
 
 export const SuccessMessage = styled.p`
-  margin: 0;
+    margin: 0;
+`;
+
+export const ErrorMessageContainer = styled.div`
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    text-align: center; /* Add missing semicolon */
+`;
+
+export const ErrorMessage = styled.p`
+    margin: 0;
 `;

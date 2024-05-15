@@ -1,23 +1,27 @@
 const express = require('express');
-const connectDB = require('./db.js'); // Import the 'connectDB' function
+const connectDB = require('./db.js');
 const itemModel = require('./models/item.js');
-const cors = require('cors')
+const cors = require('cors');
+const bcrypt = require('bcryptjs'); 
 
 const app = express();
-app.use(express.json())
-app.use(cors())
-connectDB(); // Call the 'connectDB' function
+app.use(express.json());
+app.use(cors());
+connectDB(); 
 
 // Route to handle signup requests
 app.post('/signup', async (req, res) => {
     try {
         const { name, email, password, weight, age, goal } = req.body;
 
+        // Hash the password before saving
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         // Create a new item document
         const newItem = new itemModel({
             name,
             email,
-            password,
+            password: hashedPassword,
             weight,
             age,
             goal
@@ -34,15 +38,21 @@ app.post('/signup', async (req, res) => {
 });
 
 // Route to handle sign-in requests
-/*app.post('/signin', async (req, res) => {
+app.post('/signin', async (req, res) => {
     try {
-        const { email, pw } = req.body;
+        const { email, password } = req.body;
 
-        // Find user by email and password
-        const user = await itemModel.findOne({ email, pw });
+        // Find user by email
+        const user = await itemModel.findOne({ email });
 
         if (!user) {
-            // If user not found or password is incorrect, send error response
+            return res.status(401).json({ success: false, message: "Invalid email or password" });
+        }
+
+        // Compare the provided password with the hashed password stored in the database
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
             return res.status(401).json({ success: false, message: "Invalid email or password" });
         }
 
@@ -52,7 +62,7 @@ app.post('/signup', async (req, res) => {
         console.error("Error signing in:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
     }
-});*/
+});
 
 app.listen(3000, () => {
     console.log("Server is running");
