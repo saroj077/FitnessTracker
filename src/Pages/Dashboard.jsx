@@ -1,30 +1,24 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-`;
-
-const WelcomeMessage = styled.h1`
-    font-size: 2rem;
-    color: #333;
-`;
+import { Route, Routes } from 'react-router-dom';
+import Sidebar from '../components/Sidebar/Sidebar';
+import MainDash from '../components/MainDash/MainDash';
+import Workouts from '../components/Workouts/Workouts';
+import Foods from '../components/Foods/Foods';
+import './Dashboard.css';
 
 const Dashboard = () => {
-    const location = useLocation();
-    const { username } = location.state || { username: 'User' }; // Default to 'User' if username is not provided
-
-    return (
-        <Container>
-            <WelcomeMessage>Welcome, {username}!</WelcomeMessage>
-        </Container>
-    );
+  return (
+    <div className='dashboard'>
+      <Sidebar />
+      <div className='main-content'>
+        <Routes>
+          <Route path="/" element={<MainDash />} />
+          <Route path="/workouts" element={<Workouts />} />
+          <Route path="/foods" element={<Foods />} />
+        </Routes>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;

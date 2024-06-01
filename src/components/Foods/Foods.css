@@ -1,0 +1,7 @@
+.foods{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 20px;
+    margin-left: 220px;
+}

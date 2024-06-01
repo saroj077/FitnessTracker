@@ -12,10 +12,15 @@ import Dashboard from './Pages/Dashboard';
 import Errorpage from './components/Errorpage';
 import { Routes, Route } from 'react-router-dom';
 
+import MaybeShowNavBar from './components/MaybeShowNavBar/MaybeShowNavBar';
+
 const App = () => {
   return (
     <div>
-      <Navbar />
+      <MaybeShowNavBar>
+        <Navbar />
+      </MaybeShowNavBar>
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -23,9 +28,10 @@ const App = () => {
         <Route path="/search" element={<SearchExercise />} />
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/signin" element={<SignIn />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/*" element={<Dashboard />} />
         <Route path="*" element={<Errorpage />} />
       </Routes>
+
       <Footer />
     </div>
   );
