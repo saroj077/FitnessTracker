@@ -1,0 +1,158 @@
+.cart-page {
+    padding: 20px;
+    margin-left: 220px;
+  }
+  
+  .cart-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  
+  h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    margin: 10px 0;
+  }
+  
+  .cart-items {
+    width: 70%;
+    padding-right: 20px;
+  }
+  
+  .cart-items-container {
+    width: 100%;
+  }
+  
+  .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+  }
+  
+  .cart-item-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
+  .cart-item-details {
+    flex-grow: 1;
+  }
+  
+  .cart-item-category {
+    font-size: 1em;
+    color: #999;
+  }
+  
+  .cart-item-name {
+    font-size: 1.2em;
+    margin: 5px 0;
+  }
+  
+  .cart-item-color-size {
+    font-size: 1em;
+    color: #999;
+  }
+  
+  .cart-item-price,
+  .cart-item-quantity,
+  .cart-item-total-price {
+    font-size: 1.2em;
+  }
+  
+  .cart-item-quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .cart-item-quantity button {
+    padding: 8px 12px;
+    font-size: 1em;
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .cart-item-quantity input {
+    width: 60px;
+    text-align: center;
+    padding: 8px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .cart-summary {
+    width: 30%;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+  }
+  
+  .cart-summary h3 {
+    margin: 0;
+    font-size: 1.4em;
+  }
+  
+  .shipping-calculator,
+  .coupon-code,
+  .cart-total {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .shipping-calculator select,
+  .shipping-calculator input,
+  .coupon-code input {
+    padding: 12px;
+    font-size: 1em;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .shipping-calculator button,
+  .coupon-code button,
+  .cart-total button {
+    padding: 12px;
+    font-size: 1em;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .continue-shopping-button {
+    padding: 12px;
+    font-size: 1em;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 200px;
+    align-self: center;
+  }
+  
+  .continue-shopping-button:hover {
+    background-color: #218838;
+  }
+  

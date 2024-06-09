@@ -17,9 +17,9 @@ import MaybeShowNavBar from './components/MaybeShowNavBar/MaybeShowNavBar';
 const App = () => {
   return (
     <div>
-      <MaybeShowNavBar>
+      {/*<MaybeShowNavBar>
         <Navbar />
-      </MaybeShowNavBar>
+      </MaybeShowNavBar>*/}
 
       <Routes>
         <Route path="/" element={<Home />} />

@@ -1,4 +1,4 @@
-import { FaHome, FaDumbbell, FaAppleAlt, FaUser } from 'react-icons/fa';
+import { FaHome, FaDumbbell, FaAppleAlt, FaUser,FaShoppingCart } from 'react-icons/fa';
 import StrengthTraining from '../assets/images/Strength Training.jpg';
 import Yoga from '../assets/images/Yoga and mediation.jpg';
 import Cardio from '../assets/images/Cardiovascular.jpg';
@@ -19,6 +19,11 @@ export const SidebarData = [
     icon: FaDumbbell,
     heading: "Workouts",
     path: "/workouts"
+  },
+  {
+    icon: FaShoppingCart,
+    heading: "Commerce",
+    path: "/commerce"
   },
   {
     icon: FaAppleAlt,
