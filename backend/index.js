@@ -1,23 +1,33 @@
+// index.js
 const express = require('express');
 const connectDB = require('./db.js');
 const itemModel = require('./models/item.js');
+const orderModel = require('./models/order.js'); // Add this line
 const cors = require('cors');
-const bcrypt = require('bcryptjs'); 
+const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer'); // Add this line
 
 const app = express();
 app.use(express.json());
 app.use(cors());
-connectDB(); 
+connectDB(); // Ensure MongoDB connection
+
+// Transporter for sending emails
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'fitpulse777@gmail.com',
+        pass: 'FitP@l$e077'
+    }
+});
 
 // Route to handle signup requests
 app.post('/signup', async (req, res) => {
     try {
         const { name, email, password, weight, age, goal } = req.body;
 
-        // Hash the password before saving
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create a new item document
         const newItem = new itemModel({
             name,
             email,
@@ -27,9 +37,7 @@ app.post('/signup', async (req, res) => {
             goal
         });
 
-        // Save the new item to the database
         await newItem.save();
-
         res.status(200).json({ message: "User signed up successfully" });
     } catch (error) {
         console.error("Error signing up:", error);
@@ -42,25 +50,58 @@ app.post('/signin', async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        // Find user by email
         const user = await itemModel.findOne({ email });
 
         if (!user) {
             return res.status(401).json({ success: false, message: "Invalid email or password" });
         }
 
-        // Compare the provided password with the hashed password stored in the database
         const isMatch = await bcrypt.compare(password, user.password);
 
         if (!isMatch) {
             return res.status(401).json({ success: false, message: "Invalid email or password" });
         }
 
-        // If user found and password is correct, send success response
         return res.status(200).json({ success: true, message: "Sign-in successful", username: user.name });
     } catch (error) {
         console.error("Error signing in:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
+    }
+});
+
+// Route to handle placing orders
+app.post('/api/orders/place', async (req, res) => {
+    try {
+        const { userId, cart, shippingDetails } = req.body;
+
+        const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+
+        const newOrder = new orderModel({
+            userId,
+            items: cart,
+            totalPrice,
+            shippingDetails
+        });
+
+        const savedOrder = await newOrder.save();
+
+        // Fetch user details for sending email
+        const user = await itemModel.findById(userId);
+
+        // Send confirmation email
+        const mailOptions = {
+            from: 'fitpulse777@gmail.com',
+            to: user.email,
+            subject: 'Order Confirmation',
+            text: `Dear ${user.name},\n\nYour order has been placed successfully.\n\nOrder Details:\n${JSON.stringify(cart, null, 2)}\n\nTotal Price: $${totalPrice.toFixed(2)}\n\nThank you for shopping with us!\n\nBest Regards,\nFitPulse Team`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({ message: "Order placed successfully", orderId: savedOrder._id });
+    } catch (error) {
+        console.error("Error placing order:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 });
 

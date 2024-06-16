@@ -22,14 +22,26 @@ const SearchBar = ({ onFoodSelect, apiKey }) => {
   const handleInputChange = (event) => {
     const value = event.target.value;
     setQuery(value);
-    fetchSuggestions(value);
+    debounceFetchSuggestions(value);
   };
 
-  const handleSuggestionClick = (food) => {
+  const handleSuggestionClick = (food, event) => {
+    event.preventDefault();
     onFoodSelect(food);
     setQuery('');
     setSuggestions([]);
   };
+
+  // Debounce function to limit API calls
+  const debounce = (func, wait) => {
+    let timeout;
+    return (...args) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+  };
+
+  const debounceFetchSuggestions = debounce(fetchSuggestions, 300);
 
   return (
     <div className="search-container">
@@ -43,7 +55,7 @@ const SearchBar = ({ onFoodSelect, apiKey }) => {
       {suggestions.length > 0 && (
         <ul className="suggestions-list">
           {suggestions.map((food) => (
-            <li key={food.fdcId} onClick={() => handleSuggestionClick(food)} className="suggestion-item">
+            <li key={food.fdcId} onMouseDown={(event) => handleSuggestionClick(food, event)} className="suggestion-item">
               {food.description}
             </li>
           ))}

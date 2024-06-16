@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './Cart.css';
 import { useNavigate } from 'react-router-dom';
 import countries from './countries.json';
+import axios from 'axios';
+import { FaTrash } from 'react-icons/fa';
+
 const Cart = () => {
   const [cart, setCart] = useState([]);
   const [coupon, setCoupon] = useState('');
@@ -9,12 +12,17 @@ const Cart = () => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [stateCity, setStateCity] = useState('');
   const [zipCode, setZipCode] = useState('');
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     const savedCart = localStorage.getItem('cart');
     if (savedCart) {
       setCart(JSON.parse(savedCart));
+    }
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
     }
   }, []);
 
@@ -26,11 +34,37 @@ const Cart = () => {
     setCart(cart.map(item => item.id === product.id ? { ...item, quantity: newQuantity } : item));
   };
 
+  const handleDelete = (product) => {
+    setCart(cart.filter(item => item.id !== product.id));
+  };
+
   const applyCoupon = () => {
     if (coupon === 'DISCOUNT10') {
       setDiscount(10);
     } else {
       setDiscount(0);
+    }
+  };
+
+  const handleCheckout = async () => {
+    try {
+      if (!user) {
+        alert('Please sign in to place an order');
+        return;
+      }
+
+      const response = await axios.post('http://localhost:3000/api/orders/place', {
+        userId: user._id,
+        cart,
+        shippingDetails: { country: selectedCountry, stateCity, zipCode }
+      });
+
+      alert('Your order has been placed!');
+      localStorage.removeItem('cart');
+      navigate('/dashboard/commerce');
+    } catch (error) {
+      console.error('Failed to place order or send confirmation email', error);
+      alert('Failed to place order. Please try again later.');
     }
   };
 
@@ -48,16 +82,22 @@ const Cart = () => {
                 <h3 className="cart-item-name">{item.name}</h3>
                 <p className="cart-item-color-size">Color: {item.color} • Size: {item.size}</p>
               </div>
-              <div className="cart-item-price">${item.price.toFixed(2)}</div>
+              <div className="cart-item-price">
+              </div>
               <div className="cart-item-quantity">
                 <button onClick={() => handleQuantityChange(item, -1)}>-</button>
                 <input type="number" value={item.quantity} readOnly />
                 <button onClick={() => handleQuantityChange(item, 1)}>+</button>
               </div>
               <div className="cart-item-total-price">${(item.price * item.quantity).toFixed(2)}</div>
+                <FaTrash 
+                  className="delete-icon" 
+                  onClick={() => handleDelete(item)} 
+                />
             </div>
           ))}
         </div>
+
         <div className="cart-summary">
           <div className="shipping-calculator">
             <h3>Calculated Shipping</h3>
@@ -73,13 +113,13 @@ const Cart = () => {
               onChange={(e) => setStateCity(e.target.value)} 
               placeholder="State / City" 
             />
-              <input 
+            <input 
               type="text" 
               value={zipCode} 
               onChange={(e) => setZipCode(e.target.value)} 
               placeholder="ZIP Code" 
             />
-            <button>Update</button>
+            <button>Calculate Shipping</button>
           </div>
 
           <div className="coupon-code">
@@ -91,19 +131,30 @@ const Cart = () => {
               placeholder="Coupon Code" 
             />
             <button onClick={applyCoupon}>Apply</button>
+            {discount > 0 && <p className="discount-message">Coupon applied: ${discount.toFixed(2)} off</p>}
           </div>
-          <div className="cart-total">
-            <p>Cart Subtotal: ${totalPrice.toFixed(2)}</p>
-            <p>Discount: -${discount.toFixed(2)}</p>
-            <h3>Cart Total: ${finalPrice.toFixed(2)}</h3>
-            <button>Proceed to Checkout</button>
+
+          <div className="price-summary">
+            <div className="summary-item">
+              <span>Total Price:</span>
+              <span>${totalPrice.toFixed(2)}</span>
+            </div>
+            <div className="summary-item">
+              <span>Discount:</span>
+              <span>${discount.toFixed(2)}</span>
+            </div>
+            <div className="summary-item">
+              <span>Final Price:</span>
+              <span>${finalPrice.toFixed(2)}</span>
+            </div>
+            <button onClick={handleCheckout} className="checkout-button">Proceed to Checkout</button>
           </div>
         </div>
       </div>
+
       <button className="continue-shopping-button" onClick={() => navigate('/dashboard/commerce')}>Continue Shopping</button>
     </div>
   );
 };
 
 export default Cart;
-

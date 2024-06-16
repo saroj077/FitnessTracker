@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
+import { Pie } from 'react-chartjs-2';
+import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import SearchBar from './SearchBar';
 import './BreakfastOptions.css';
+
+Chart.register(ArcElement, Tooltip, Legend);
 
 const BreakfastOptions = () => {
   const [selectedFood, setSelectedFood] = useState(null);
   const [nutrientDetails, setNutrientDetails] = useState(null);
   const [servingSize, setServingSize] = useState('');
   const [servingUnit, setServingUnit] = useState('');
-  const apiKey = 'CqQKXGXopsLYib1nFgUTiqhWWVhvUC5clFg9AQiu'; // Your API key
+  const [chartData, setChartData] = useState(null); // Initialize chartData state
+
+  const apiKey = 'CqQKXGXopsLYib1nFgUTiqhWWVhvUC5clFg9AQiu';
 
   const fetchNutrientDetails = async (fdcId) => {
     try {
@@ -24,6 +30,7 @@ const BreakfastOptions = () => {
     fetchNutrientDetails(food.fdcId);
     setServingSize('');
     setServingUnit('');
+    setChartData(null); // Reset chartData when a new food is selected
   };
 
   const handleServingInputChange = (event) => {
@@ -37,16 +44,44 @@ const BreakfastOptions = () => {
 
   const handleSubmitServing = (event) => {
     event.preventDefault();
-    // Perform any necessary calculations if needed
+    updateChartData();
   };
 
-  const requiredNutrients = ['Protein', 'Carbohydrate, by difference', 'Total Sugars', 'Total lipid (fat)', 'Sodium, Na'];
+  const requiredNutrients = ['Protein', 'Carbohydrate, by difference', 'Total Sugars', 'Total lipid (fat)'];
+
+  const updateChartData = () => {
+    if (!nutrientDetails || !servingSize || !servingUnit) {
+      setChartData(null); // Reset chartData if required data is missing
+      return;
+    }
+
+    const updatedChartData = {
+      labels: requiredNutrients,
+      datasets: [
+        {
+          label: 'Nutrient Breakdown',
+          data: requiredNutrients.map(nutrient => {
+            const nutrientDetail = nutrientDetails.foodNutrients.find(n => n.nutrient.name === nutrient);
+            if (!nutrientDetail) return 0;
+
+            const multiplier = servingUnit.toLowerCase() === 'g' ? 1 : 28.3495; // assuming 1 oz = 28.3495 g
+            const amountInGrams = nutrientDetail.amount * (servingSize / multiplier);
+            return amountInGrams.toFixed(2);
+          }),
+          backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733', '#C70039'],
+          hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#FF5733', '#C70039'],
+        },
+      ],
+    };
+
+    setChartData(updatedChartData);
+  };
 
   return (
     <div className="title-container">
       <h2>Breakfast Options</h2>
       <SearchBar onFoodSelect={handleFoodSelect} apiKey={apiKey} />
-      {selectedFood && !servingSize && (
+      {selectedFood && (
         <div className="serving-input">
           <h3>Enter serving size for {selectedFood.description}</h3>
           <form onSubmit={handleSubmitServing}>
@@ -73,14 +108,10 @@ const BreakfastOptions = () => {
       {selectedFood && nutrientDetails && servingSize && servingUnit && (
         <div className="nutrient-details">
           <h3>Nutrient Details for {selectedFood.description}</h3>
-          {nutrientDetails.foodNutrients && nutrientDetails.foodNutrients.length > 0 ? (
-            <ul>
-              {nutrientDetails.foodNutrients.filter(nutrient => requiredNutrients.includes(nutrient.nutrient.name)).map((nutrient, index) => (
-                <li key={index}>
-                  {nutrient.nutrient.name}: {(nutrient.amount * (servingSize / 100)).toFixed(2)} {nutrient.nutrient.unitName}
-                </li>
-              ))}
-            </ul>
+          {chartData ? (
+            <div className="chart-container">
+              <Pie data={chartData} />
+            </div>
           ) : (
             <p>No nutrient details available.</p>
           )}
