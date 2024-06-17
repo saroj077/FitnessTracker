@@ -1,8 +1,56 @@
 .Maindash {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 20px;
-    margin-left: 220px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 20px;
+  margin-left: 220px;
+}
+
+
+
+.form {
+  margin-bottom: 20px;
+}
+
+.form input {
+  margin-right: 10px;
+}
+
+.form button {
+  padding: 5px 10px;
+}
+
+.exercise-table {
+  margin-bottom: 20px;
+}
+
+.exercise-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.exercise-table th,
+.exercise-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.charts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* Two columns for each row */
+  gap: 50px;
+}
+
+.chart {
+  width: 500px;
+  height: 500px;
+  /* Adjust the height of each chart */
+  border: 1px solid #ddd;
+  /* Optional: Add border for better separation */
+  padding: 20px;
+}
+
+.chart h2 {
+  margin-bottom: 10px;
+}

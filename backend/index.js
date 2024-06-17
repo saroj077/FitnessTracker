@@ -11,7 +11,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 connectDB(); // Ensure MongoDB connection
-
+app.get('/', (req, res) => {
+    res.send('Server is running');
+})
 // Transporter for sending emails
 const transporter = nodemailer.createTransport({
     service: 'gmail',
