@@ -6,14 +6,16 @@ const MaybeShowNavBar = ({ children }) => {
   const [showNavBar, setShowNavBar] = useState(true);
 
   useEffect(() => {
+    // Check if the current path starts with '/dashboard'
     if (location.pathname.startsWith('/dashboard')) {
-      setShowNavBar(false);
+      setShowNavBar(false); // Hide navbar for dashboard pages
     } else {
-      setShowNavBar(true);
+      setShowNavBar(true); // Show navbar for other pages
     }
   }, [location]);
 
-  return <>{showNavBar && children}</>;
+  // Render children only if showNavBar is true
+  return showNavBar ? <>{children}</> : null;
 };
 
 export default MaybeShowNavBar;

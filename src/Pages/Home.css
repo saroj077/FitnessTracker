@@ -13,19 +13,12 @@
 }
 /*left side*/
 .home-left{
+    margin-top: 130px;
     gap: 3rem;
     display: flex;
     flex-direction: column;
 }
-.home-title{
-    position: relative;
-    z-index: 1;
-}
-.hero-title>h1{
-    font-weight: bold;
-    font-size: 3.8rem;
-    line-height: 4rem;
-}
+
 .home-des{
     display: flex;
     flex-direction: column;

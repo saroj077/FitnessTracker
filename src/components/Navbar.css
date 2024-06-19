@@ -1,10 +1,6 @@
 .nav-wrapper {
     position: fixed;
-    top: 0;
-    left: 0;
     width: 100%;
-    background-color: white;
-    z-index: 1000;
     padding: 0 30px;
 }
 .nav-container{
@@ -16,8 +12,13 @@
     color:black;
     font-size: 0.9rem;
 }
-.nav-menu{
+.nav-menu {
+    display: flex;
+    align-items: center;
     gap: 2rem;
+}
+.nav-menu > * {
+    position: relative; /* Ensure all direct children of nav-menu are positioned relative */
 }
 .nav-menu>*:hover{
     cursor: pointer;

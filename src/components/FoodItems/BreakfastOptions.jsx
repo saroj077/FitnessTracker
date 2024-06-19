@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import SearchBar from './SearchBar';
@@ -7,10 +7,19 @@ import './BreakfastOptions.css';
 Chart.register(ArcElement, Tooltip, Legend);
 
 const BreakfastOptions = () => {
-  const [selectedFoods, setSelectedFoods] = useState([]);
+  // Initialize state with foods fetched from localStorage or an empty array
+  const [selectedFoods, setSelectedFoods] = useState(() => {
+    const storedFoods = localStorage.getItem('selectedFoods');
+    return storedFoods ? JSON.parse(storedFoods) : [];
+  });
   const [chartData, setChartData] = useState(null);
 
   const apiKey = 'CqQKXGXopsLYib1nFgUTiqhWWVhvUC5clFg9AQiu';
+
+  useEffect(() => {
+    // Save selected foods to localStorage whenever it changes
+    localStorage.setItem('selectedFoods', JSON.stringify(selectedFoods));
+  }, [selectedFoods]);
 
   const fetchNutrientDetails = async (fdcId) => {
     try {
@@ -68,8 +77,6 @@ const BreakfastOptions = () => {
             multiplier = 28.3495; // Convert ounces to grams
           } else if (selectedFood.servingUnit.toLowerCase() === 'g') {
             multiplier = 1; // Grams, already in grams
-          } else {
-            multiplier = 1; // Default to grams for other units
           }
           const amountInGrams = nutrientDetail.amount * (selectedFood.servingSize / multiplier);
           totalMacro[nutrient] += amountInGrams;
@@ -154,8 +161,6 @@ const BreakfastOptions = () => {
                         multiplier = 28.3495; // Convert ounces to grams
                       } else if (selectedFood.servingUnit.toLowerCase() === 'g') {
                         multiplier = 1; // Grams, already in grams
-                      } else {
-                        multiplier = 1; // Default to grams for other units
                       }
                       const amountInGrams = nutrientDetail.amount * (selectedFood.servingSize / multiplier);
                       return <td key={nutrient}>{amountInGrams.toFixed(2)}</td>;
@@ -176,8 +181,6 @@ const BreakfastOptions = () => {
                           multiplier = 28.3495; // Convert ounces to grams
                         } else if (selectedFood.servingUnit.toLowerCase() === 'g') {
                           multiplier = 1; // Grams, already in grams
-                        } else {
-                          multiplier = 1; // Default to grams for other units
                         }
                         const amountInGrams = nutrientDetail.amount * (selectedFood.servingSize / multiplier);
                         return total + amountInGrams;

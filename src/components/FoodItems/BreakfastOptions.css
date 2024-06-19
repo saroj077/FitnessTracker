@@ -4,29 +4,43 @@
   margin: 0 auto;
   padding: 20px;
   box-sizing: border-box;
-  background-color: #f7f7f7;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 
 .breakfast-options {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .section-title {
   font-size: 24px;
   margin-bottom: 20px;
   text-align: center;
+  color: #cc0000; /* Theme color */
 }
 
 .serving-input {
+  margin-top: 30px;
   margin-bottom: 20px;
-
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+.serving-input input {
+  width: calc(50% - 10px); 
+  margin-right: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.serving-input input:last-child {
+  margin-right: 0;
 }
 
 .food-item {
@@ -35,37 +49,46 @@
   background-color: #fff;
   border: 1px solid #eee;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
-
 .food-title {
   font-size: 18px;
   margin-bottom: 10px;
+  font-weight: bold;
+  color: black;
 }
 
 .submit-button {
   display: block;
-  width: 100%;
+  width: 30%;
   padding: 10px;
-  background-color: #007bff;
+  margin-left: 20px;
+  background-color: #DC2060; /* Theme color */
   color: #fff;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px; 
+  margin-left: 230px;
 }
 
 .submit-button:hover {
-  background-color: #0056b3;
+  background-color: #FF4081; 
 }
 
 .data-table-container {
+  margin-top: 60px;
   margin-bottom: 30px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .table-title {
   font-size: 20px;
   margin-bottom: 15px;
+  color: #DC2060;
 }
 
 .data-table {
@@ -77,9 +100,9 @@
   border-collapse: collapse;
   border: 1px solid #ddd;
   border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
 }
+
 
 .data-table th,
 .data-table td {
@@ -96,8 +119,10 @@
   background-color: #f9f9f9;
 }
 
+
 .total-row {
   font-weight: bold;
+  color: black;
 }
 
 .chart-container {
@@ -109,4 +134,5 @@
   font-size: 20px;
   margin-bottom: 10px;
   text-align: center;
+  color: #DC2060; /* Theme color */
 }
