@@ -1,7 +1,20 @@
-.workouts{
+.workouts-container {
+    margin-left: 220px; /* Adjust margin-left to accommodate the sidebar width */
+    flex-grow: 1; /* Allow the component to grow to fill available space */
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
-    padding: 20px;
-    margin-left: 220px;
-}
+    justify-content: flex-start;
+    align-items: stretch;
+    min-height: 100vh; /* Ensure component stretches to fill viewport height */
+    overflow: auto; /* Enable scrolling if content overflows vertically */
+    padding: 20px; /* Adjust padding as necessary */
+    background-color: #f5f5f5; /* Example background color */
+  }
+  
+  @media (max-width: 768px) {
+    .workouts-container {
+      margin-left: 0; /* Remove left margin for smaller screens */
+      padding: 10px; /* Adjust padding for smaller screens */
+    }
+  }
+  

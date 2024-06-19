@@ -1,104 +1,268 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "poppins",sans-serif;
-    scroll-behavior: smooth;
+/* Reset and base styles */
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Josefin Sans', 'Poppins', sans-serif;
+  scroll-behavior: smooth;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+  font-family: 'Josefin Sans', sans-serif;
+  background-color: #FFFAFB;
+  margin: 0;
+  padding: 0;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Buttons */
+.right-arrow,
+.left-arrow,
+.button {
+  cursor: pointer;
+  background: transparent;
+  outline: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #FF2625;
+  font-size: 25px;
+  border-radius: 4px;
+  transition: 0.3s all ease-in-out;
+  z-index: 10;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.right-arrow {
+  right: 10px;
+}
+
+.left-arrow {
+  left: 10px;
+}
+
+.right-arrow:hover,
+.left-arrow:hover,
+.button:hover {
+  transform: scale(1.3, 1.3) translateY(-50%);
+}
+
+/* Containers and cards */
 .main-content {
-    margin-top: 20px;
-    padding: 10px;
+  margin-top: 20px;
+  padding: 10px;
 }
 
-a{
-    color: inherit;
-    text-decoration: none;
-}
-.paddings{
-    padding: 1.5 rem;
-}
-.innerWidth{
-    width: 100%;
-}
-.flexCenter{
-    display: flex;
-    row-gap: 2.5 rem;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-.flexStart{
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-}
-.flexEnd{
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-.flexColCenter{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.flexColStart{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-}
-.flexColEnd{
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    flex-direction: column;
+.paddings {
+  padding: 1.5rem;
 }
 
-.button{
-    font-weight: 500;
-    padding: 0.6rem 1.4rem;
-    color: white;
-    background: #da1c5d;
-    border: none;
-    border-radius: 20px;
-    transition: all 300ms ease-in;
-}
-.button:hover{
-    cursor: pointer;
-    transform: scale(1.1);
-}
-.primaryText{
-    color: #da1c5d;
-    font-weight: bold;
-    font-size: 2rem;
-}
-.secondaryText{
-    color: rgb(140, 139, 139);
-    font-size: 0.9rem;
+.innerWidth {
+  width: 100%;
 }
 
-/*Media Queries*/
-@media (min-width: 1536px){
-    .innerWidth{
-        max-width: 1280px;
-        margin: auto;
-    }
+.flexCenter {
+  display: flex;
+  row-gap: 2.5rem;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
-@media(min-width: 640px){
-    .paddings{
-        padding: 4 rem;
-    }
+
+.flexStart {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 }
-@media (min-width:1280px),(min-width:768px){
-    .paddings{
-        padding: 2rem;
-    }
+
+.flexEnd {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.flexColCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.flexColStart {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.flexColEnd {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+/* Hero Banner */
+.hero-banner-img {
+  position: absolute;
+  right: 40px;
+  top: 0;
+  width: 700px;
+  height: 900px;
+  margin-top: -330px;
+}
+
+@media screen and (max-width: 1200px) {
+  .hero-banner-img {
+    display: none;
+  }
+}
+
+/* Exercise Cards */
+.exercise-card,
+.exercise-video {
+  width: 400px;
+  height: 445px;
+  background: #fff;
+  border-top: 4px solid #FF2625;
+  border-bottom-left-radius: 20px;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  padding-bottom: 10px;
+  transform: scale(1, 1);
+  transition: 0.3s all ease-in-out;
+}
+
+.exercise-card img {
+  height: 326px;
+}
+
+.exercise-card:hover {
+  transform: scale(1.1, 1.1);
+}
+
+.bodyPart-card:hover {
+  transform: scale(1.1, 1.1);
+}
+
+@media screen and (max-width: 1200px) {
+  .exercise-card,
+  .exercise-video {
+    width: 320px;
+    height: 300px;
+  }
+
+  .detail-image {
+    width: 300px;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .exercise-card {
+    width: 280px;
+  }
+}
+
+/* Typography */
+.primaryText {
+  color: #da1c5d;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.secondaryText {
+  color: rgb(140, 139, 139);
+  font-size: 0.9rem;
+}
+
+/* Media Queries */
+@media (min-width: 1536px) {
+  .innerWidth {
+    max-width: 1280px;
+    margin: auto;
+  }
+}
+
+@media (min-width: 640px) {
+  .paddings {
+    padding: 4rem;
+  }
+}
+
+@media (min-width: 1280px), (min-width: 768px) {
+  .paddings {
+    padding: 2rem;
+  }
+}
+
+/* Detail Image */
+.detail-image {
+  width: 729px;
+  height: 742px;
+}
+
+@media screen and (max-width: 1200px) {
+  .react-horizontal-scrolling-menu--scroll-container {
+    width: 500px;
+  }
+
+  .left-arrow,
+  .right-arrow {
+    position: static !important;
+  }
+}
+
+/* Horizontal Scrollbar */
+.horizontal-scroll-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding-bottom: 20px;
+}
+
+.horizontal-scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-item {
+  flex: 0 0 auto;
+  margin-right: 20px; /* Adjust as needed */
+}
+
+.scroll-item:first-child {
+  margin-left: 20px; /* Adjust as needed */
+}
+
+.scroll-item:last-child {
+  margin-right: 0;
+}
+
+.scroll-item .arrow {
+  cursor: pointer;
+}
+
+.scroll-item .arrow img {
+  width: 30px; /* Adjust arrow size */
+  height: 30px;
+}
+
+@media screen and (max-width: 768px) {
+  .scroll-item {
+    margin-right: 10px; /* Adjust margins for smaller screens */
+  }
 }
