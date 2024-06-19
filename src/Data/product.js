@@ -16,6 +16,16 @@ import Shoes from '../assets/images/shoes.jpg';
 import Socks from '../assets/images/socks.jpg';
 import Tubes from '../assets/images/tubes.jpg';
 import Vest from '../assets/images/vest.jpg';
+import Tracker from '../assets/images/tracker.jpg';
+import Block from '../assets/images/block.jpg';
+import Strap from '../assets/images/strap.jpg';
+import Sorts from '../assets/images/sorts.jpg';
+import Bra from '../assets/images/sports.jpg';
+import Rack from '../assets/images/rack.jpg';
+import Mat from '../assets/images/mat.jpg';
+import Foam from '../assets/images/roller1.jpg';
+import Band from '../assets/images/bands1.jpg';
+
 
 
 export const products = [
@@ -129,7 +139,7 @@ export const products = [
       name: "Fitness Tracker",
       category: "Accessory",
       price: 79.99,
-      image: "fitness-tracker.jpg"
+      image: Tracker,
     },
     {
       id: 17,
@@ -171,63 +181,56 @@ export const products = [
       name: "Yoga Block",
       category: "Equipment",
       price: 9.99,
-      image: "yoga-block.jpg"
+      image: Block,
     },
     {
       id: 23,
       name: "Yoga Strap",
       category: "Equipment",
       price: 7.99,
-      image: "yoga-strap.jpg"
+      image: Strap,
     },
     {
       id: 24,
       name: "Men's Shorts",
       category: "Gym Wear",
       price: 24.99,
-      image: "mens-shorts.jpg"
+      image: Sorts,
     },
     {
       id: 25,
       name: "Women's Sports Bra",
       category: "Gym Wear",
       price: 19.99,
-      image: "sports-bra.jpg"
+      image: Bra,
     },
     {
       id: 26,
       name: "Dumbbell Rack",
       category: "Equipment",
       price: 69.99,
-      image: "dumbbell-rack.jpg"
+      image: Rack,
     },
     {
       id: 27,
-      name: "Weightlifting Belt",
-      category: "Accessory",
-      price: 29.99,
-      image: "weightlifting-belt.jpg"
-    },
-    {
-      id: 28,
       name: "Exercise Mat",
       category: "Equipment",
       price: 29.99,
-      image: "exercise-mat.jpg"
+      image: Mat,
     },
     {
-      id: 29,
+      id: 28,
       name: "Foam Roller",
       category: "Accessory",
       price: 19.99,
-      image: "foam-roller.jpg"
+      image: Foam,
     },
     {
-      id: 30,
+      id: 29,
       name: "Resistance Bands Set",
       category: "Equipment",
       price: 24.99,
-      image: "resistance-bands-set.jpg"
+      image: Band,
     }
   ];
   
