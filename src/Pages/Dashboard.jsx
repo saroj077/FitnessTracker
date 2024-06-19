@@ -6,6 +6,7 @@ import Workouts from '../components/Workouts/Workouts';
 import Commerce from '../components/Commerce/Commerce';
 import Foods from '../components/Foods/Foods';
 import Cart from '../components/Commerce/Cart';
+import Profile from '../components/profile/Profile';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -47,6 +48,8 @@ const Dashboard = () => {
           <Route path="/commerce" element={<Commerce />} />
           <Route path="/commerce/cart" element={<Cart />} />
           <Route path="/foods/*" element={<Foods />} />
+          <Route path="/profile" element={<Profile />} />
+
         </Routes>
       </div>
     </div>

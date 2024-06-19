@@ -1,4 +1,5 @@
 // index.js
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const connectDB = require('./db.js');
 const itemModel = require('./models/item.js');
@@ -6,10 +7,17 @@ const orderModel = require('./models/order.js'); // Add this line
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer'); // Add this line
+const jwt = require('jsonwebtoken');
+const verifyJwt = require('./middlewares/auth.middleware.js');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:3001',
+    credentials: true,
+}));
+app.use(cookieParser());
+
 connectDB(); // Ensure MongoDB connection
 app.get('/', (req, res) => {
     res.send('Server is running');
@@ -22,6 +30,22 @@ const transporter = nodemailer.createTransport({
         pass: 'FitP@l$e077'
     }
 });
+
+//generate token
+const generateAccessToken = async (userId) => {
+    try {
+        const user = await itemModel.findById(userId);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        const accessToken = user.generateAccessToken();
+        console.log(accessToken);
+        return accessToken;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 
 // Route to handle signup requests
 app.post('/signup', async (req, res) => {
@@ -63,8 +87,17 @@ app.post('/signin', async (req, res) => {
         if (!isMatch) {
             return res.status(401).json({ success: false, message: "Invalid email or password" });
         }
+        const accessToken = await generateAccessToken(user._id);
+        const loggedInUser = await itemModel.findById(user._id).select('-password');
+        const options = {
+            httpOnly: true,
+            secure: true,
+        }
+        return res
+            .cookie('accessToken', accessToken, options)
+            .status(200).json({ success: true, message: "Sign-in successful", username: loggedInUser, accessToken })
 
-        return res.status(200).json({ success: true, message: "Sign-in successful", username: user.name });
+
     } catch (error) {
         console.error("Error signing in:", error);
         res.status(500).json({ success: false, message: "Internal server error" });
@@ -110,3 +143,29 @@ app.post('/api/orders/place', async (req, res) => {
 app.listen(3000, () => {
     console.log("Server is running");
 });
+
+
+app.post('/logout', verifyJwt, async (req, res) => {
+    await itemModel.findByIdAndUpdate(
+        req.user._id,
+        {
+            new: true,
+        }
+    )
+    const options = {
+        httpOnly: true,
+        secure: true,
+    }
+    return res
+        .clearCookie('accessToken', options)
+        .status(200)
+        .json({ success: true, message: "Sign-out successful" });
+}
+
+);
+
+// Route to handle fetching user details
+app.get('/current-user', verifyJwt, async (req, res) => {
+    res.status(200).json(req.user);
+});
+

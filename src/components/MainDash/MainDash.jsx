@@ -10,7 +10,9 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import "./MainDash.css";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import 'react-tabs/style/react-tabs.css';
+import './MainDash.css';
 
 // Register the necessary components
 ChartJS.register(
@@ -24,7 +26,6 @@ ChartJS.register(
 );
 
 const MainDash = () => {
-  // Initialize state with exercises fetched from localStorage or an empty array
   const [exercises, setExercises] = useState(() => {
     const storedExercises = localStorage.getItem('exercises');
     return storedExercises ? JSON.parse(storedExercises) : [];
@@ -34,7 +35,6 @@ const MainDash = () => {
   const [reps, setReps] = useState('');
 
   useEffect(() => {
-    // Save exercises to localStorage whenever it changes
     localStorage.setItem('exercises', JSON.stringify(exercises));
   }, [exercises]);
 
@@ -48,11 +48,7 @@ const MainDash = () => {
 
   const getChartData = (exerciseName) => {
     const filteredExercises = exercises.filter(ex => ex.name === exerciseName);
-    const labels = filteredExercises.map(ex => {
-      // Parse date string back to Date object
-      const date = new Date(ex.date);
-      return date.toLocaleDateString();
-    });
+    const labels = filteredExercises.map(ex => new Date(ex.date).toLocaleDateString());
     const data = filteredExercises.map(ex => ex.weight);
 
     return {
@@ -93,36 +89,48 @@ const MainDash = () => {
         />
         <button onClick={handleAddExercise}>Add Exercise</button>
       </div>
-      <div className="exercise-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Exercise</th>
-              <th>Weight</th>
-              <th>Reps</th>
-            </tr>
-          </thead>
-          <tbody>
-            {exercises.map((exercise, index) => (
-              <tr key={index}>
-                <td>{new Date(exercise.date).toLocaleDateString()}</td>
-                <td>{exercise.name}</td>
-                <td>{exercise.weight}</td>
-                <td>{exercise.reps}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="charts">
-        {exerciseTypes.map((exerciseName, index) => (
-          <div key={index} className="chart">
-            <h2>{exerciseName} Progression</h2>
-            <Line data={getChartData(exerciseName)} />
+      <Tabs>
+        <TabList>
+          <Tab>Exercise Table</Tab>
+          <Tab>Graphs</Tab>
+        </TabList>
+
+        <TabPanel>
+          <div className="exercise-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Exercise</th>
+                  <th>Weight</th>
+                  <th>Reps</th>
+                </tr>
+              </thead>
+              <tbody>
+                {exercises.map((exercise, index) => (
+                  <tr key={index}>
+                    <td>{new Date(exercise.date).toLocaleDateString()}</td>
+                    <td>{exercise.name}</td>
+                    <td>{exercise.weight}</td>
+                    <td>{exercise.reps}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        ))}
-      </div>
+        </TabPanel>
+
+        <TabPanel>
+          <div className="charts">
+            {exerciseTypes.map((exerciseName, index) => (
+              <div key={index} className="chart">
+                <h2>{exerciseName} Progression</h2>
+                <Line data={getChartData(exerciseName)} />
+              </div>
+            ))}
+          </div>
+        </TabPanel>
+      </Tabs>
     </div>
   );
 };

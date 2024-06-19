@@ -26,6 +26,7 @@ h1 {
   width: 100%;
   max-width: 200px;
 }
+
 .form input::placeholder {
   color: black;
 }
@@ -57,30 +58,22 @@ h1 {
 .exercise-table th,
 .exercise-table td {
   border: 1px solid #ddd;
-  padding: 12px; /* Increase padding for better readability */
+  padding: 12px;
   text-align: left;
 }
 
 .exercise-table th {
   background-color: #FF4081;
   color: white;
-  font-weight: bold; /* Make header text bold */
+  font-weight: bold;
 }
 
 .exercise-table tr:nth-child(even) {
-  background-color: #f9f9f9; /* Slightly lighter shade for better contrast */
+  background-color: #f9f9f9;
 }
 
 .exercise-table tr:hover {
-  background-color: #f1f1f1; /* Subtle hover effect */
-}
-
-.exercise-table tr td:first-child {
-  border-left: none;
-}
-
-.exercise-table tr td:last-child {
-  border-right: none;
+  background-color: #f1f1f1;
 }
 
 .charts {
@@ -103,6 +96,7 @@ h1 {
 }
 
 @media (max-width: 768px) {
+
   .form,
   .exercise-table,
   .charts {
