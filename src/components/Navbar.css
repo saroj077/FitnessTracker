@@ -3,28 +3,35 @@
     width: 100%;
     padding: 0 30px;
 }
-.nav-container{
+
+.nav-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-top: 1rem;
     padding-bottom: 1rem;
-    color:black;
+    color: black;
     font-size: 0.9rem;
+    ;
 }
+
 .nav-menu {
     display: flex;
     align-items: center;
     gap: 2rem;
 }
-.nav-menu > * {
-    position: relative; /* Ensure all direct children of nav-menu are positioned relative */
+
+.nav-menu>* {
+    position: relative;
+    /* Ensure all direct children of nav-menu are positioned relative */
 }
-.nav-menu>*:hover{
+
+.nav-menu>*:hover {
     cursor: pointer;
     color: #a3a2a2;
 }
-.SignUpbutton{
+
+.SignUpbutton {
     font-weight: 500;
     padding: 0.6rem 1.4rem;
     color: black;
@@ -34,7 +41,8 @@
     border-radius: 20px;
     transition: all 300ms ease-in;
 }
-.SignUpbutton:hover{
+
+.SignUpbutton:hover {
     cursor: pointer;
     transform: scale(1.1);
 }
