@@ -3,26 +3,42 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const connectDB = require('./db.js');
 const itemModel = require('./models/item.js');
+const foodModel = require('./models/food.model.js')
 const orderModel = require('./models/order.js'); // Add this line
 const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer'); // Add this line
 const jwt = require('jsonwebtoken');
 const verifyJwt = require('./middlewares/auth.middleware.js');
+const userRoutes = require('./routes/userRoutes.js')
+
+
+
+
+
+
+
 
 const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3001',
+
+    // origin: 'http://localhost:3001',
     credentials: true,
 }));
 app.use(cookieParser());
 
+
+
+app.use('/api', userRoutes)
+app.use(cors());
+
+
 connectDB(); // Ensure MongoDB connection
 app.get('/', (req, res) => {
-    res.send('Server is running');
-})
-// Transporter for sending emails
+        res.send('Server is running');
+    })
+    // Transporter for sending emails
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -32,7 +48,7 @@ const transporter = nodemailer.createTransport({
 });
 
 //generate token
-const generateAccessToken = async (userId) => {
+const generateAccessToken = async(userId) => {
     try {
         const user = await itemModel.findById(userId);
         if (!user) {
@@ -48,7 +64,7 @@ const generateAccessToken = async (userId) => {
 
 
 // Route to handle signup requests
-app.post('/signup', async (req, res) => {
+app.post('/signup', async(req, res) => {
     try {
         const { name, email, password, weight, age, goal } = req.body;
 
@@ -71,8 +87,11 @@ app.post('/signup', async (req, res) => {
     }
 });
 
+
+
+
 // Route to handle sign-in requests
-app.post('/signin', async (req, res) => {
+app.post('/signin', async(req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -105,7 +124,7 @@ app.post('/signin', async (req, res) => {
 });
 
 // Route to handle placing orders
-app.post('/api/orders/place', async (req, res) => {
+app.post('/api/orders/place', async(req, res) => {
     try {
         const { userId, cart, shippingDetails } = req.body;
 
@@ -140,32 +159,31 @@ app.post('/api/orders/place', async (req, res) => {
     }
 });
 
-app.listen(3000, () => {
-    console.log("Server is running");
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 
-app.post('/logout', verifyJwt, async (req, res) => {
-    await itemModel.findByIdAndUpdate(
-        req.user._id,
-        {
-            new: true,
+app.post('/logout', verifyJwt, async(req, res) => {
+        await itemModel.findByIdAndUpdate(
+            req.user._id, {
+                new: true,
+            }
+        )
+        const options = {
+            httpOnly: true,
+            secure: true,
         }
-    )
-    const options = {
-        httpOnly: true,
-        secure: true,
+        return res
+            .clearCookie('accessToken', options)
+            .status(200)
+            .json({ success: true, message: "Sign-out successful" });
     }
-    return res
-        .clearCookie('accessToken', options)
-        .status(200)
-        .json({ success: true, message: "Sign-out successful" });
-}
 
 );
 
 // Route to handle fetching user details
-app.get('/current-user', verifyJwt, async (req, res) => {
+app.get('/current-user', verifyJwt, async(req, res) => {
     res.status(200).json(req.user);
 });
-

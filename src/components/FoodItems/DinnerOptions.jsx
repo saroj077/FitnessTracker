@@ -3,6 +3,7 @@ import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import SearchBar from './SearchBar';
 import './BreakfastOptions.css'; // Reusing the same CSS file
+import axios from 'axios';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -56,7 +57,50 @@ const DinnerOptions = () => {
   const handleSubmitServing = (event) => {
     event.preventDefault();
     updateChartData();
+    sendFoodDataToBackend();
+    
   };
+
+  const sendFoodDataToBackend = async () => {
+    try {
+        const userId = '6687d4f95beb5f1d4d36d14c'; // Replace with actual userId
+        const today = new Date();
+        today.setHours(0, 0, 0, 0); // Reset time to start of the day
+
+        const foodItems = selectedFoods.map((selectedFood) => {
+            const protein = selectedFood.nutrientDetails.foodNutrients.find((n) => n.nutrient.name === 'Protein')?.amount || 0;
+            const carbs = selectedFood.nutrientDetails.foodNutrients.find((n) => n.nutrient.name === 'Carbohydrate, by difference')?.amount || 0;
+            const fats = selectedFood.nutrientDetails.foodNutrients.find((n) => n.nutrient.name === 'Total lipid (fat)')?.amount || 0;
+            const serving = parseFloat(selectedFood.servingSize);
+            const calories = (protein * 4 + carbs * 4 + fats * 9) * serving; // Calculate calories
+
+            return {
+                name: selectedFood.food.description,
+                protein,
+                carbs,
+                fats,
+                serving,
+                calories // Include calories
+            };
+        });
+
+        const response = await axios.post('http://localhost:5000/api/food', {
+            userId,
+            date: today,
+            foodItems,
+        });
+
+        console.log('Food data sent to backend:', response.data);
+    } catch (error) {
+        console.error('Error sending food data to backend:', error);
+    }
+};
+
+
+
+
+
+
 
   const requiredNutrients = ['Protein', 'Carbohydrate, by difference', 'Total Sugars', 'Total lipid (fat)'];
 

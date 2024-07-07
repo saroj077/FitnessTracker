@@ -3,6 +3,7 @@ import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import SearchBar from './SearchBar';
 import './BreakfastOptions.css'; // Reusing the same CSS file
+import axios from 'axios';
 
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -54,8 +55,39 @@ const LunchOptions = () => {
   };
 
   const handleSubmitServing = (event) => {
+
     event.preventDefault();
     updateChartData();
+    selectedFoods.forEach(async (selectedFood) => {
+      try {
+        const { food, servingSize, servingUnit, nutrientDetails } = selectedFood;
+        const nutrientAmounts = nutrientDetails.foodNutrients.reduce((acc, nutrient) => {
+          if (requiredNutrients.includes(nutrient.nutrient.name)) {
+            acc[nutrient.nutrient.name] = nutrient.amount;
+          }
+
+          // 
+
+
+          return acc;
+        }, {});
+
+        await axios.post('/api/food', {
+          name: food.description,
+          protein: nutrientAmounts['Protein'] || 0,
+          carbs: nutrientAmounts['Carbohydrate, by difference'] || 0,
+          fats: nutrientAmounts['Total lipid (fat)'] || 0,
+          serving: servingSize,
+          servingUnit: servingUnit
+        });
+      } catch (error) {
+        console.error('Error saving food:', error);
+      }
+    });
+
+
+
+
   };
 
   const requiredNutrients = ['Protein', 'Carbohydrate, by difference', 'Total Sugars', 'Total lipid (fat)'];
