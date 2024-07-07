@@ -1,30 +1,59 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import styled from 'styled-components';
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #f0f0f0;
-`;
-
-const WelcomeMessage = styled.h1`
-    font-size: 2rem;
-    color: #333;
-`;
+import React, { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Sidebar from '../components/Sidebar/Sidebar';
+import MainDash from '../components/MainDash/MainDash';
+import Workouts from '../components/Workouts/Workouts';
+import Commerce from '../components/Commerce/Commerce';
+import Foods from '../components/Foods/Foods';
+import Cart from '../components/Commerce/Cart';
+import Profile from '../components/profile/Profile';
+import './Dashboard.css';
 
 const Dashboard = () => {
-    const location = useLocation();
-    const { username } = location.state || { username: 'User' }; // Default to 'User' if username is not provided
+  useEffect(() => {
+    // Create a script element
+    const script1 = document.createElement('script');
+    script1.src = "https://www.chatbase.co/embed.min.js";
+    script1.defer = true;
+    script1.setAttribute('chatbotId', 'taS5kbRfITiHMFf0Nh_qf');
+    script1.setAttribute('domain', 'www.chatbase.co');
 
-    return (
-        <Container>
-            <WelcomeMessage>Welcome, {username}!</WelcomeMessage>
-        </Container>
-    );
+    // Create a second script element for the configuration
+    const script2 = document.createElement('script');
+    script2.innerHTML = `
+      window.embeddedChatbotConfig = {
+        chatbotId: "taS5kbRfITiHMFf0Nh_qf",
+        domain: "www.chatbase.co"
+      };
+    `;
+
+    // Append the scripts to the document body
+    document.body.appendChild(script2);
+    document.body.appendChild(script1);
+
+    // Cleanup the scripts when the component is unmounted
+    return () => {
+      document.body.removeChild(script1);
+      document.body.removeChild(script2);
+    };
+  }, []);
+
+  return (
+    <div className='dashboard'>
+      <Sidebar />
+      <div className='main-content'>
+        <Routes>
+          <Route path="/" element={<MainDash />} />
+          <Route path="/workouts" element={<Workouts />} />
+          <Route path="/commerce" element={<Commerce />} />
+          <Route path="/commerce/cart" element={<Cart />} />
+          <Route path="/foods/*" element={<Foods />} />
+          <Route path="/profile" element={<Profile />} />
+
+        </Routes>
+      </div>
+    </div>
+  );
 };
 
 export default Dashboard;
