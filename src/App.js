@@ -10,12 +10,13 @@ import SignUpForm from './components/SignUpForm';
 import SignIn from './components/SignIn';
 import Dashboard from './Pages/Dashboard';
 import Errorpage from './components/Errorpage';
+import Profile from './components/Profile';
 import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
   return (
     <div>
-      <Navbar />
+      {/*<Navbar />*/}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<Errorpage />} />
       </Routes>
       <Footer />
