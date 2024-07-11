@@ -8,7 +8,7 @@ import Foods from '../components/Foods/Foods';
 import Cart from '../components/Commerce/Cart';
 import Profile from '../components/profile/Profile';
 import './Dashboard.css';
-
+// import {TotalCaloriesProvider} from '../components/TotalCaloriesContext'
 const Dashboard = () => {
   useEffect(() => {
     // Create a script element
@@ -38,21 +38,30 @@ const Dashboard = () => {
     };
   }, []);
 
-  return (
-    <div className='dashboard'>
-      <Sidebar />
-      <div className='main-content'>
-        <Routes>
-          <Route path="/" element={<MainDash />} />
-          <Route path="/workouts" element={<Workouts />} />
-          <Route path="/commerce" element={<Commerce />} />
-          <Route path="/commerce/cart" element={<Cart />} />
-          <Route path="/foods/*" element={<Foods />} />
-          <Route path="/profile" element={<Profile />} />
 
-        </Routes>
-      </div>
+
+  
+
+
+
+
+
+  return (
+    
+    <div className='dashboard'>
+        <Sidebar />
+        <div className='main-content'>
+            <Routes>
+                <Route path="/" element={<MainDash />} />
+                <Route path="/workouts" element={<Workouts />} />
+                <Route path="/commerce" element={<Commerce />} />
+                <Route path="/commerce/cart" element={<Cart />} />
+                <Route path="/foods/*" element={<Foods  />} />
+                <Route path="/profile" element={<Profile />} />
+            </Routes>
+        </div>
     </div>
+
   );
 };
 

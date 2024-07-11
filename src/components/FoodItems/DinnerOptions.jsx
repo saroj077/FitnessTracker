@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,createContext } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import SearchBar from './SearchBar';
 import './BreakfastOptions.css'; // Reusing the same CSS file
 import axios from 'axios';
-
+import { TotalCaloriesContext } from '../TotalCaloriesContext';
 Chart.register(ArcElement, Tooltip, Legend);
 
 const DinnerOptions = () => {
@@ -14,6 +14,25 @@ const DinnerOptions = () => {
     return storedFoods ? JSON.parse(storedFoods) : [];
   });
   const [chartData, setChartData] = useState(null);
+
+  const userId = '664476475f7f02cda8c25280';
+
+
+  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   const apiKey = 'CqQKXGXopsLYib1nFgUTiqhWWVhvUC5clFg9AQiu';
 
@@ -63,7 +82,7 @@ const DinnerOptions = () => {
 
   const sendFoodDataToBackend = async () => {
     try {
-        const userId = '6687d4f95beb5f1d4d36d14c'; // Replace with actual userId
+        const userId = '664476475f7f02cda8c25280'; // Replace with actual userId
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Reset time to start of the day
 
@@ -95,6 +114,28 @@ const DinnerOptions = () => {
         console.error('Error sending food data to backend:', error);
     }
 };
+
+//Get that data now
+const date =  new Date()
+const [totalCalories, setTotalCalories] = useState(null);
+
+    useEffect(() => {
+      
+      
+        const fetchTotalCalories = async () => {
+            try {
+                const response = await axios.get('http://localhost:5000/api/food/calories', {
+                    params: { userId, date }
+                });
+                setTotalCalories(response.data.totalCalories);
+            } catch (error) {
+                console.error('Error fetching total calories:', error);
+            }
+        };
+
+        fetchTotalCalories();
+    }, [userId, date]);
+
 
 
 
@@ -244,7 +285,21 @@ const DinnerOptions = () => {
           <Pie data={chartData} />
         </div>
       )}
+
+      <div> Hello user your total calorie would be : 
+        
+      <div>
+            {totalCalories !== null ? (
+                <p>Total Calories: {totalCalories}</p>
+            ) : (
+                <p>Loading...</p>
+            )}
+        </div>
+
+
+      </div>
     </div>
+    
   );
 };
 

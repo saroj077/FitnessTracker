@@ -93,3 +93,25 @@ module.exports.food = async(req, res) => {
         res.status(500).json({ message: 'Error saving food', error });
     }
 };
+
+
+module.exports.getCal = async(req, res) => {
+    const { userId, date } = req.query;
+    try {
+        const { userId, date } = req.query;
+
+        const today = new Date(date);
+        today.setHours(0, 0, 0, 0); // Reset time to start of the day
+
+        const dailyIntake = await DailyIntake.findOne({ userId, date: today });
+
+        if (dailyIntake) {
+            res.status(200).json({ totalCalories: dailyIntake.totalCalories });
+        } else {
+            res.status(404).json({ message: 'No data found for today' });
+        }
+    } catch (error) {
+        console.error('Error fetching total calories:', error);
+        res.status(500).json({ message: 'Error fetching total calories', error });
+    }
+};
