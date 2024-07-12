@@ -1,4 +1,4 @@
-import React, { useState, useEffect,createContext } from 'react';
+import React, { useState, useEffect, createContext } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import SearchBar from './SearchBar';
@@ -19,8 +19,8 @@ const DinnerOptions = () => {
   const userId = '66901dc328a12d9a3ade0de5';
 
 
-  
-    
+
+
 
 
 
@@ -78,64 +78,64 @@ const DinnerOptions = () => {
     event.preventDefault();
     updateChartData();
     sendFoodDataToBackend();
-    
+
   };
 
   const sendFoodDataToBackend = async () => {
     try {
-        // const userId = '664476475f7f02cda8c25280'; // Replace with actual userId
-        const today = new Date();
-        today.setHours(0, 0, 0, 0); // Reset time to start of the day
+      // const userId = '664476475f7f02cda8c25280'; // Replace with actual userId
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); // Reset time to start of the day
 
-        const foodItems = selectedFoods.map((selectedFood) => {
-            const protein = selectedFood.nutrientDetails.foodNutrients.find((n) => n.nutrient.name === 'Protein')?.amount || 0;
-            const carbs = selectedFood.nutrientDetails.foodNutrients.find((n) => n.nutrient.name === 'Carbohydrate, by difference')?.amount || 0;
-            const fats = selectedFood.nutrientDetails.foodNutrients.find((n) => n.nutrient.name === 'Total lipid (fat)')?.amount || 0;
-            const serving = parseFloat(selectedFood.servingSize);
-            const calories = (protein * 4 + carbs * 4 + fats * 9) * serving; // Calculate calories
+      const foodItems = selectedFoods.map((selectedFood) => {
+        const protein = selectedFood.nutrientDetails.foodNutrients.find((n) => n.nutrient.name === 'Protein')?.amount || 0;
+        const carbs = selectedFood.nutrientDetails.foodNutrients.find((n) => n.nutrient.name === 'Carbohydrate, by difference')?.amount || 0;
+        const fats = selectedFood.nutrientDetails.foodNutrients.find((n) => n.nutrient.name === 'Total lipid (fat)')?.amount || 0;
+        const serving = parseFloat(selectedFood.servingSize);
+        const calories = (protein * 4 + carbs * 4 + fats * 9) * serving; // Calculate calories
 
-            return {
-                name: selectedFood.food.description,
-                protein,
-                carbs,
-                fats,
-                serving,
-                calories // Include calories
-            };
-        });
-
-        const response = await axios.post('http://localhost:5000/api/food', {
-            userId,
-            date: today,
-            foodItems,
-        });
-
-        console.log('Food data sent to backend:', response.data);
-    } catch (error) {
-        console.error('Error sending food data to backend:', error);
-    }
-};
-
-//Get that data now
-const date =  new Date()
-const [totalCalories, setTotalCalories] = useState(null);
-
-    useEffect(() => {
-      
-      
-        const fetchTotalCalories = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/food/calories', {
-                    params: { userId, date }
-                });
-                setTotalCalories(response.data.totalCalories);
-            } catch (error) {
-                console.error('Error fetching total calories:', error);
-            }
+        return {
+          name: selectedFood.food.description,
+          protein,
+          carbs,
+          fats,
+          serving,
+          calories // Include calories
         };
+      });
 
-        fetchTotalCalories();
-    }, [userId, date]);
+      const response = await axios.post('http://localhost:5000/api/food', {
+        userId,
+        date: today,
+        foodItems,
+      });
+
+      console.log('Food data sent to backend:', response.data);
+    } catch (error) {
+      console.error('Error sending food data to backend:', error);
+    }
+  };
+
+  //Get that data now
+  const date = new Date()
+  const [totalCalories, setTotalCalories] = useState(null);
+
+  useEffect(() => {
+
+
+    const fetchTotalCalories = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/food/calories', {
+          params: { userId, date }
+        });
+        setTotalCalories(response.data.totalCalories);
+      } catch (error) {
+        console.error('Error fetching total calories:', error);
+      }
+    };
+
+    fetchTotalCalories();
+  }, [userId, date]);
 
 
 
@@ -191,7 +191,7 @@ const [totalCalories, setTotalCalories] = useState(null);
     setChartData(updatedChartData);
   };
 
-   
+
   const handleRemoveFood = (index) => {
     const newSelectedFoods = selectedFoods.filter((_, i) => i !== index);
     setSelectedFoods(newSelectedFoods);
@@ -203,7 +203,7 @@ const [totalCalories, setTotalCalories] = useState(null);
 
 
   return (
-    <div className='breakfast-options'>
+    <div className='dinner-options'>
       <h2 className='section-title'>Dinner Options</h2>
       <SearchBar onFoodSelect={handleFoodSelect} apiKey={apiKey} />
       {selectedFoods.length > 0 && (
@@ -228,7 +228,7 @@ const [totalCalories, setTotalCalories] = useState(null);
                   onChange={(event) => handleServingInputChange(event, index)}
                   required
                 />
-                 <button type='button' className='remove-button' onClick={() => handleRemoveFood(index)}>✖</button>
+                <button type='button' className='remove-button' onClick={() => handleRemoveFood(index)}>✖</button>
               </form>
             </div>
           ))}
@@ -299,20 +299,20 @@ const [totalCalories, setTotalCalories] = useState(null);
         </div>
       )}
 
-      <div> Hello user your total calorie would be : 
-        
-      <div>
-            {totalCalories !== null ? (
-                <p>Total Calories: {totalCalories}</p>
-            ) : (
-                <p>Loading...</p>
-            )}
+      <div> Hello user your total calorie would be :
+
+        <div>
+          {totalCalories !== null ? (
+            <p>Total Calories: {totalCalories}</p>
+          ) : (
+            <p>Loading...</p>
+          )}
         </div>
 
 
       </div>
     </div>
-    
+
   );
 };
 

@@ -64,20 +64,20 @@ const calculateBMR = (weight, height, age, gender) => {
 
 
 const Profile = () => {
-    const userId = '66901dc328a12d9a3ade0de5'
-    //const userId = '66909b3e720ba7ecd323cbd5'
-const date =  new Date()
+  const userId = '66901dc328a12d9a3ade0de5'
+  //const userId = '66909b3e720ba7ecd323cbd5'
+  const date = new Date()
 
 
-    const email = 'Ann1@gmail.com'; 
-    // const email = "Ram@gmail.com"
+  const email = 'Ann1@gmail.com';
+  // const email = "Ram@gmail.com"
   const [image, setImage] = useState(defaultModel);
   const [totalBurned, setTotalBurned] = useState(0);
   const [totalGained, setTotalGained] = useState(0);
   const [dailyCaloriesNeeded, setDailyCaloriesNeeded] = useState(0);
   const [daysToGoal, setDaysToGoal] = useState(0);
- 
- 
+
+
   const [height, setHeight] = useState(0);
   const [age, setAge] = useState(0);
 
@@ -85,23 +85,24 @@ const date =  new Date()
   const [goalWeight, setGoalWeight] = useState('');
   const [gender, setGender] = useState('');
   const [activityLevel, setActivityLevel] = useState('');
-const[name,setName] =useState('')
-//   useEffect(() => {
-//     const totalBurned = data.reduce((acc, cur) => acc + cur.burned, 0);
-//     const totalGained = data.reduce((acc, cur) => acc + cur.gained, 0);
-//     setTotalBurned(totalBurned);
-//     setTotalGained(totalGained);
+  const [name, setName] = useState('')
+  const [duration, setDuration] = useState(0);
+  //   useEffect(() => {
+  //     const totalBurned = data.reduce((acc, cur) => acc + cur.burned, 0);
+  //     const totalGained = data.reduce((acc, cur) => acc + cur.gained, 0);
+  //     setTotalBurned(totalBurned);
+  //     setTotalGained(totalGained);
 
-//     const dailyBMR = calculateBMR(currentWeight, height, age, gender);
-//     const dailyCalories = dailyBMR * activityLevel;
-//     setDailyCaloriesNeeded(dailyCalories);
+  //     const dailyBMR = calculateBMR(currentWeight, height, age, gender);
+  //     const dailyCalories = dailyBMR * activityLevel;
+  //     setDailyCaloriesNeeded(dailyCalories);
 
-//     const dailyCaloricDeficit = dailyCalories - (totalGained / 7) + (totalBurned / 7);
-//     const caloriesToLose = (currentWeight - goalWeight) * 7700; // 7700 calories to lose 1 kg
+  //     const dailyCaloricDeficit = dailyCalories - (totalGained / 7) + (totalBurned / 7);
+  //     const caloriesToLose = (currentWeight - goalWeight) * 7700; // 7700 calories to lose 1 kg
 
-//     const daysToGoal = Math.round(caloriesToLose / dailyCaloricDeficit);
-//     setDaysToGoal(daysToGoal);
-//   }, []);
+  //     const daysToGoal = Math.round(caloriesToLose / dailyCaloricDeficit);
+  //     setDaysToGoal(daysToGoal);
+  //   }, []);
 
   useEffect(() => {
     if (currentWeight && height && age && gender && activityLevel && goalWeight) {
@@ -128,22 +129,22 @@ const[name,setName] =useState('')
 
 
   useEffect(() => {
-      
-      
+
+
     const fetchTotalCalories = async () => {
-        try {
-            const response = await axios.get('http://localhost:5000/api/food/calories', {
-                params: { userId, date }
-            });
-            setTotalGained(response.data.totalCalories);
-       
-        } catch (error) {
-            console.error('Error fetching total calories:', error);
-        }
+      try {
+        const response = await axios.get('http://localhost:5000/api/food/calories', {
+          params: { userId, date }
+        });
+        setTotalGained(response.data.totalCalories);
+
+      } catch (error) {
+        console.error('Error fetching total calories:', error);
+      }
     };
 
     fetchTotalCalories();
-}, [userId, date]);
+  }, [userId, date]);
 
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -164,7 +165,7 @@ const[name,setName] =useState('')
         const response = await axios.get('http://localhost:5000/api/profile/data', {
           params: { email }
         });
-        const { age, weight,height,name } = response.data;
+        const { age, weight, height, name } = response.data;
         setAge(age);
         setCurrentWeight(weight);
         setHeight(height)
@@ -178,6 +179,36 @@ const[name,setName] =useState('')
     fetchData();
   }, []);
 
+  const fetchPredictedCalories = async () => {
+    try {
+      const response = await axios.post('http://localhost:8000/predict', {
+        Gender: gender === 'male' ? 1 : 0,
+        Age: age,
+        Height: height,
+
+        weight: currentWeight,
+        Duration: duration,
+        Heart_Rate: 100,
+        Body_Temp: 37
+      });
+
+      setTotalBurned(response.data.prediction);
+    }
+    catch (error) {
+      console.error('Error fetching predicted calories:', error);
+
+    }
+
+  }
+
+
+
+  useEffect(() => {
+    if (height && age && gender && currentWeight) {
+      fetchPredictedCalories();
+    }
+  })
+
 
   const handleTotalBurnedChange = (event) => {
     setTotalBurned(event.target.value);
@@ -186,12 +217,12 @@ const[name,setName] =useState('')
     <div className="profile-container" style={{ marginLeft: '300px' }}>
       <h1>My Profile</h1>
       <div className="welcome-section">
-        <input 
-          type="file" 
-          accept="image/*" 
-          id="upload-image" 
-          style={{ display: 'none' }} 
-          onChange={handleImageChange} 
+        <input
+          type="file"
+          accept="image/*"
+          id="upload-image"
+          style={{ display: 'none' }}
+          onChange={handleImageChange}
         />
         <label htmlFor="upload-image">
           <img src={image} alt="Profile" className="profile-pic" />
@@ -201,55 +232,69 @@ const[name,setName] =useState('')
             <h2>{name}</h2>
             <p>{email}</p>
             <p>Height: {height} cm</p>
-          <p>Age: {age}</p>
-          <p>Current Weight: {currentWeight} kg</p>
+            <p>Age: {age}</p>
+            <p>Current Weight: {currentWeight} kg</p>
           </div>
           <div className="additional-details">
-          <label>
-            Goal Weight:
-            <input 
-              type="number" 
-              value={goalWeight} 
-              onChange={handleGoalWeightChange} 
-            />
-          </label>
-          <label>
-            Gender:
-            <select value={gender} onChange={handleGenderChange}>
-              <option value="">Select</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </label>
-          <label>
-            Activity Level:
-            <select value={activityLevel} onChange={handleActivityLevelChange}>
-              <option value="">Select</option>
-              <option value="1.2">Sedentary (little or no exercise)</option>
-              <option value="1.375">Lightly active (light exercise/sports 1-3 days/week)</option>
-              <option value="1.55">Moderately active (moderate exercise/sports 3-5 days/week)</option>
-              <option value="1.725">Very active (hard exercise/sports 6-7 days a week)</option>
-              <option value="1.9">Super active (very hard exercise/sports & a physical job)</option>
-            </select>
-          </label>
+            <label>
+              Goal Weight:
+              <input
+                type="number"
+                value={goalWeight}
+                onChange={handleGoalWeightChange}
+              />
+            </label>
+            <label>
+              Gender:
+              <select value={gender} onChange={handleGenderChange}>
+                <option value="">Select</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </label>
+            <label>
+              Activity Level:
+              <select value={activityLevel} onChange={handleActivityLevelChange}>
+                <option value="">Select</option>
+                <option value="1.2">Sedentary (little or no exercise)</option>
+                <option value="1.375">Lightly active (light exercise/sports 1-3 days/week)</option>
+                <option value="1.55">Moderately active (moderate exercise/sports 3-5 days/week)</option>
+                <option value="1.725">Very active (hard exercise/sports 6-7 days a week)</option>
+                <option value="1.9">Super active (very hard exercise/sports & a physical job)</option>
+              </select>
+            </label>
 
 
           </div>
         </div>
       </div>
 
+      <div className='duration'>
+        <label htmlFor='duration'>Duration:</label>
+        <input
+          type='number'
+          id='duration'
+          name='duration'
+          value={duration}
+          onChange={(e) => setDuration(e.target.value)}
+          placeholder='Enter duration in minutes'
+        />
+      </div>
+
       <div className="history-section">
-      <div className='total-burned-input'>
-  <label htmlFor='totalBurned'>Total Calories Burned:</label>
-  <input
-    type='number'
-    id='totalBurned'
-    name='totalBurned'
-    value={totalBurned}
-    onChange={handleTotalBurnedChange}
-    placeholder='Enter total calories burned'
-  />
-</div>
+        <div className='total-burned-input'>
+          <label htmlFor='totalBurned'>Total Calories Burned:</label>
+          <input
+            type='number'
+            id='totalBurned'
+            name='totalBurned'
+            value={totalBurned}
+            onChange={handleTotalBurnedChange}
+            placeholder='Enter total calories burned'
+            disabled
+          />
+        </div>
+
         {/* <h2>Calories History</h2>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={data}>
@@ -262,16 +307,17 @@ const[name,setName] =useState('')
             <Line type="monotone" dataKey="gained" stroke="#1c5dda" />
           </LineChart>
         </ResponsiveContainer> */}
-        
+
         <div className="totals-section">
-        <div className="total-item">
+          <div className="total-item">
             <h3>Daily Calories Needed</h3>
             <p>{dailyCaloriesNeeded.toFixed(2)} calories</p>
           </div>
           <div className="total-item">
             <h3>Total Calories Burned</h3>
-            <p>{totalBurned} calories</p>
+            <p>{totalBurned + 1800} calories</p>
           </div>
+
           <div className="total-item">
             <h3>Total Calories Gained</h3>
             <p>{totalGained} calories</p>
@@ -279,14 +325,14 @@ const[name,setName] =useState('')
         </div>
       </div>
 
-      
+
       <div className="goal-section">
         <h2>Goal Achievement</h2>
         <p>Based on your current progress, you can achieve your goals in <strong>{daysToGoal} days</strong>.</p>
-      <p>note : for weight gain, -ve is shown </p>
-        
+        <p>note : for weight gain, -ve is shown </p>
+
       </div>
-      <Profile2 outtake={totalBurned}/>
+      <Profile2 outtake={totalBurned} />
     </div>
 
   );
