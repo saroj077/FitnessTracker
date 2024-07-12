@@ -1,42 +1,168 @@
-.profile {
+.profile-container {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+  }
+  
+  h1 {
+    color: #da1c5d ;
+    text-align: left;
+    font-weight: 550;
+    margin-bottom: 40px;
+  }
+  
+  .welcome-section {
     display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    padding: 20px;
-    margin-left: 220px;
-}
-
-/* profile.css */
-
-
-.profile-header {
+    align-items: center;
     margin-bottom: 20px;
-}
+  }
+  
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 20px;
+  }
 
-.profile-header h1 {
-    font-size: 2.5em;
-    color: #4CAF50;
-}
+  .user-details {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .user-details h2 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .user-details p {
+    margin: 5px 0 0;
+    color: #555;
+  }
 
-.profile-card {
-    background: #fff;
-    padding: 20px;
+  .additional-details {
+    text-align: right;
+  }
+  
+  .history-section {
+    margin-bottom: 30px;
+  }
+  
+  .history-section h2 {
+    color: #da1c85 ;
+    margin-bottom: 25px;
+
+  }
+  
+  .totals-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .total-item {
+    background-color: #f9f9f9;
+    padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 48%;
     text-align: center;
-}
-
-.profile-card h2 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-}
-
-.profile-card p {
-    font-size: 1.1em;
+  }
+  
+  .total-item h3 {
+    margin: 0 0 10px;
+    color: #da1c37;
+  }
+  
+.recommendation-section, .goal-section {
+    margin-top: 20px;
+  }
+  
+.recommendation-card {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+  }
+  
+  .category {
+    background-color: #fbe2eb;
+    color: #da1c5d;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .progress-percentage {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .progress-info h3 {
+    margin: 10px 0 5px;
+  }
+  
+  .continue-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #da1c5d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .continue-button:hover {
+    background-color: #b0174a;
+  }
+  
+  .recommendation-card {
+    display: flex;
+    align-items: center;
+  }
+  
+  .exercise-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .exercise-info {
+    flex: 1;
+  }
+  
+  .exercise-info h3 {
+    margin: 0;
+  }
+  
+  .exercise-info p {
     margin: 5px 0;
-}
-
-.profile-card p strong {
-    color: #4CAF50;
-}
+  }
+  
+  .exercise-info .category {
+    background-color: #f0f0f0;
+    color: #777;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .goal-section {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .goal-section h2 {
+    margin: 0 0 10px;
+  }
+  
+  .goal-section p {
+    margin: 0;
+    font-size: 16px;
+  }
+  

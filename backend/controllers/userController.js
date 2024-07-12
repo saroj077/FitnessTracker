@@ -1,8 +1,8 @@
 const DailyIntake = require('../models/food.model'); // Update the path as necessary
-
-// module.exports.food = async(req, res) => {
-//     try {
-//         const { foodItems, userId } = req.body;
+const itemModel = require('../models/item')
+    // module.exports.food = async(req, res) => {
+    //     try {
+    //         const { foodItems, userId } = req.body;
 
 //         const today = new Date();
 //         today.setHours(0, 0, 0, 0); // Reset time to start of the day
@@ -114,4 +114,27 @@ module.exports.getCal = async(req, res) => {
         console.error('Error fetching total calories:', error);
         res.status(500).json({ message: 'Error fetching total calories', error });
     }
+
+
 };
+
+module.exports.getdata = async(req, res) => {
+    try {
+        const { email } = req.query; // assume email is passed as a query parameter
+        const user = await itemModel.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.json({
+            // height: user.height,
+            age: user.age,
+            weight: user.weight,
+            height: user.height,
+            name: user.name
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+    }
+
+}

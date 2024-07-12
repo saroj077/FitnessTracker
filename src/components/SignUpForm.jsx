@@ -28,7 +28,7 @@ const SignUpForm = () => {
     const handleOnSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/signup', user);
+            const response = await axios.post('http://localhost:5000/signup', user);
             console.log(response.data);
             navigate("/signin");
         } catch (error) {
@@ -39,7 +39,7 @@ const SignUpForm = () => {
     const handleSignIn = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3000/signin', { email: mail, password: pw });
+            const response = await axios.post('http://localhost:5000/signin', { email: mail, password: pw });
             console.log(response.data);
             if (response.data.success) {
                 navigate('/dashboard');
@@ -54,18 +54,18 @@ const SignUpForm = () => {
         setSignIn(!signIn);
     }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await fetch('http://localhost:3000');
-                const data = await res.json();
-                console.log(data);
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        };
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const res = await fetch('http://localhost:3000');
+    //             const data = await res.json();
+    //             console.log(data);
+    //         } catch (error) {
+    //             console.error("Error fetching data:", error);
+    //         }
+    //     };
+    //     fetchData();
+    // }, []);
 
     return (
         <C.Container>
@@ -82,6 +82,7 @@ const SignUpForm = () => {
                     <C.Input type='password' name="password" value={user.password} onChange={handleInputs} placeholder='Password' />
                     <C.Input type='number' name='age' value={user.age} onChange={handleInputs} placeholder='Age' />
                     <C.Input type='number' name='weight' value={user.weight} onChange={handleInputs} placeholder='Weight (kg)' />
+                    <C.Input type='number' name='height' value={user.height} onChange={handleInputs} placeholder='height (cm)' />
                     <C.Select name='goal' value={user.goal} onChange={handleInputs}>
                         <option value="">Select Goal</option>
                         <option value="gain">Gain Weight</option>

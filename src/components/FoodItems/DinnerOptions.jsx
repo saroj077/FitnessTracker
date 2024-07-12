@@ -4,6 +4,7 @@ import { Chart, ArcElement, Tooltip, Legend } from 'chart.js';
 import SearchBar from './SearchBar';
 import './BreakfastOptions.css'; // Reusing the same CSS file
 import axios from 'axios';
+
 import { TotalCaloriesContext } from '../TotalCaloriesContext';
 Chart.register(ArcElement, Tooltip, Legend);
 
@@ -15,7 +16,7 @@ const DinnerOptions = () => {
   });
   const [chartData, setChartData] = useState(null);
 
-  const userId = '664476475f7f02cda8c25280';
+  const userId = '66901dc328a12d9a3ade0de5';
 
 
   
@@ -82,7 +83,7 @@ const DinnerOptions = () => {
 
   const sendFoodDataToBackend = async () => {
     try {
-        const userId = '664476475f7f02cda8c25280'; // Replace with actual userId
+        // const userId = '664476475f7f02cda8c25280'; // Replace with actual userId
         const today = new Date();
         today.setHours(0, 0, 0, 0); // Reset time to start of the day
 
@@ -190,6 +191,17 @@ const [totalCalories, setTotalCalories] = useState(null);
     setChartData(updatedChartData);
   };
 
+   
+  const handleRemoveFood = (index) => {
+    const newSelectedFoods = selectedFoods.filter((_, i) => i !== index);
+    setSelectedFoods(newSelectedFoods);
+    // Update the chart and total calories after removing a food item
+    updateChartData(newSelectedFoods);
+  };
+
+
+
+
   return (
     <div className='breakfast-options'>
       <h2 className='section-title'>Dinner Options</h2>
@@ -216,6 +228,7 @@ const [totalCalories, setTotalCalories] = useState(null);
                   onChange={(event) => handleServingInputChange(event, index)}
                   required
                 />
+                 <button type='button' className='remove-button' onClick={() => handleRemoveFood(index)}>✖</button>
               </form>
             </div>
           ))}

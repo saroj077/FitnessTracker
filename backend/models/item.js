@@ -7,23 +7,22 @@ const itemSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     weight: { type: Number, required: true },
+    height: { type: Number, required: true },
     age: { type: Number, required: true },
     goal: { type: String, required: true }
 });
 
-itemSchema.methods.generateAccessToken = function () {
-    return (jwt.sign(
-        {
+itemSchema.methods.generateAccessToken = function() {
+    return (jwt.sign({
             _id: this._id,
             email: this.email,
 
             name: this.name
         },
         process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: process.env.ACCESS_TOKEN_EXPIRY
-    }
-    )
-    )
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
+        }
+    ))
 
 }
 

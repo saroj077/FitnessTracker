@@ -66,7 +66,15 @@ const generateAccessToken = async(userId) => {
 // Route to handle signup requests
 app.post('/signup', async(req, res) => {
     try {
-        const { name, email, password, weight, age, goal } = req.body;
+        const {
+            name,
+            email,
+            password,
+            age,
+            weight,
+            height,
+            goal
+        } = req.body;
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -74,8 +82,11 @@ app.post('/signup', async(req, res) => {
             name,
             email,
             password: hashedPassword,
-            weight,
             age,
+            weight,
+
+            height,
+
             goal
         });
 
@@ -93,28 +104,28 @@ app.post('/signup', async(req, res) => {
 // Route to handle sign-in requests
 app.post('/signin', async(req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email } = req.body;
 
         const user = await itemModel.findOne({ email });
-
+        console.log('login success')
         if (!user) {
             return res.status(401).json({ success: false, message: "Invalid email or password" });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        // const isMatch = await bcrypt.compare(password, user.password);
 
-        if (!isMatch) {
-            return res.status(401).json({ success: false, message: "Invalid email or password" });
-        }
-        const accessToken = await generateAccessToken(user._id);
-        const loggedInUser = await itemModel.findById(user._id).select('-password');
-        const options = {
-            httpOnly: true,
-            secure: true,
-        }
-        return res
-            .cookie('accessToken', accessToken, options)
-            .status(200).json({ success: true, message: "Sign-in successful", username: loggedInUser, accessToken })
+        // if (!isMatch) {
+        //     return res.status(401).json({ success: false, message: "Invalid email or password" });
+        // }
+        // const accessToken = await generateAccessToken(user._id);
+        // const loggedInUser = await itemModel.findById(user._id).select('-password');
+        // const options = {
+        //     httpOnly: true,
+        //     secure: true,
+        // }
+        // return res
+        //     .cookie('accessToken', accessToken, options)
+        //     .status(200).json({ success: true, message: "Sign-in successful", username: loggedInUser, accessToken })
 
 
     } catch (error) {

@@ -9,41 +9,93 @@ function App() {
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
     const [weight, setWeight] = useState('');
+    const [height, setHeight] = useState('');
     const [goal, setGoal] = useState('');
     const [signIn, setSignIn] = useState(true); // Define signIn state
     const navigate = useNavigate(); // Initialize useNavigate hook
 
-    const handleSignIn = async (e) => {
-        e.preventDefault();
-        try {
-            // Make a POST request to the backend endpoint for signing in
-            const response = await axios.post('http://localhost:3000/signin', { email, password });
-            console.log(response.data); // Log the response data (if needed)
-            // Redirect to the dashboard page after successful sign in
-            if (response.data.success) {
-                navigate('/dashboard');
-            }
-        } catch (error) {
-            console.error("Error signing in:", error);
-            // Handle error
-        }
-    }
+    // const handleSignIn = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         // Make a POST request to the backend endpoint for signing in
+    //         const response = await axios.post('http://localhost:3000/signin', { email, password });
+    //         console.log(response.data); // Log the response data (if needed)
+    //         // Redirect to the dashboard page after successful sign in
+    //         if (response.data.success) {
+    //             navigate('/dashboard');
+    //         }
+    //     } catch (error) {
+    //         console.error("Error signing in:", error);
+    //         // Handle error
+    //     }
+    // }
 
-    const handleSignUp = async (e) => {
-        e.preventDefault();
+    const handleSignIn = async (event) => {
+
+        navigate('/dashboard');
+        event.preventDefault();
+      
+       
+      
+          // form data is extracted from the state
+        //   const { email, password } = values;
+      
+          try {
+            const { data } = await axios.post('http://localhost:5000/signin', {
+                email
+            });
+      
+          
+             
+             if (data.status == true) {
+              localStorage.setItem('AppUser', JSON.stringify(data.item));
+
+             
+            }
+          } catch (error) {
+            console.error("Login Error:", error);
+            
+          }
+
+      };
+
+
+      const handleSignUp = async (event) => {
+        event.preventDefault();
+      
         try {
-            // Make a POST request to the backend endpoint for signing up
-            const response = await axios.post('http://localhost:3000/signup', { name, email, password, age, weight, goal });
-            console.log(response.data); // Log the response data (if needed)
-            // Redirect to the dashboard page after successful sign up
-            if (response.data.message === "User signed up successfully") {
-                setSignIn(true);
+            // Validate form fields before sending the request
+            if (!name || !email || !password || !age || !weight || !height || !goal) {
+                throw new Error('All fields are required.');
+            }
+    
+            // Send a POST request to the backend with the form data
+            const response = await axios.post('http://localhost:5000/signup', {
+                name,
+                email,
+                password,
+                age,
+                weight,
+                height,
+                goal
+            });
+    
+            // Check the response and handle success or error
+            if (response.data.status === true) {
+                // Navigate to Sign In page on successful sign-up
+                navigate('/signin');
+            } else {
+                throw new Error(response.data.message || 'Sign Up failed');
             }
         } catch (error) {
-            console.error("Error signing up:", error);
-            // Handle error
+            console.error('Sign Up Error:', error);
+            alert(`Sign Up Error: ${error.message}`);
         }
-    }
+    };
+    
+    
+
+    
 
     const toggle = () => {
         setSignIn(!signIn);
@@ -61,6 +113,7 @@ function App() {
                         <C.Input type='password' placeholder='Password' required onChange={(e)=>{setPassword(e.target.value)}} />
                         <C.Input type='number' name='age' placeholder='Age' required onChange={(e)=>{setAge(e.target.value)}} />
                         <C.Input type='number' name='weight' placeholder='Weight (kg)' required onChange={(e)=>{setWeight(e.target.value)}} />
+                        <C.Input type='number' name='height' placeholder='height(cm)' required onChange={(e)=>{setHeight(e.target.value)}} />
                         <C.Select name='goal' onChange={(e)=>{setGoal(e.target.value)}} >
                             <option value="">Select Goal</option>
                             <option value="gain">Gain Weight</option>

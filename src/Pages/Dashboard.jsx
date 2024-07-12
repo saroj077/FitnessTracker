@@ -8,6 +8,8 @@ import Foods from '../components/Foods/Foods';
 import Cart from '../components/Commerce/Cart';
 import Profile from '../components/profile/Profile';
 import './Dashboard.css';
+import MaybeShowNavBar from '../components/MaybeShowNavBar/MaybeShowNavBar'
+import styled from 'styled-components'
 // import {TotalCaloriesProvider} from '../components/TotalCaloriesContext'
 const Dashboard = () => {
   useEffect(() => {
@@ -47,9 +49,13 @@ const Dashboard = () => {
 
 
   return (
-    
+    <>
     <div className='dashboard'>
-        <Sidebar />
+    
+    <Sidebar />
+    
+    
+        
         <div className='main-content'>
             <Routes>
                 <Route path="/" element={<MainDash />} />
@@ -57,12 +63,29 @@ const Dashboard = () => {
                 <Route path="/commerce" element={<Commerce />} />
                 <Route path="/commerce/cart" element={<Cart />} />
                 <Route path="/foods/*" element={<Foods  />} />
-                <Route path="/profile" element={<Profile />} />
+                
+              <Route path="/profile" element={<Profile />} />
+            
+              
             </Routes>
         </div>
     </div>
+    
+    
+    </>
+    
 
   );
 };
 
 export default Dashboard;
+
+const Container = styled.div`
+  display: grid;
+  place-items: center;    /* Center both horizontally and vertically */
+  height: 100vh;         /* Full viewport height */
+  padding: 20px;        /* Optional padding */
+  box-sizing: border-box; /* Include padding in the element’s width and height */
+`;
+
+

@@ -8,6 +8,7 @@ import Model from '../assets/images/Model.png';
 const Home = () => {
   return (
     <>
+    this is home
       <section className='home-wrapper'>
         <div className='paddings flexCenter innerWidth home-container'>
           <div className='flexColStart home-left'>
